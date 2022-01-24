@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import SearchBar from './SearchBar'
+import AddItem from './AddItem'
+import ItemsDisplay from './ItemsDisplay'
+import styled from 'styled-components'
 
-function App() {
+const Title = styled.h1`
+  color: ${(props) => (props.color ? props.color : 'black')};
+`
+
+export default function App() {
+  const [filters, setFilters] = useState({})
+  const [data, setData] = useState({ items: [] })
+
+  const updateFilters = (searchParams) => {
+    setFilters(filters)
+  }
+
+  const addItemToData = (item) => {
+    let items = data['items']
+    item.id = items.length
+    items.push(item)
+    setData({ items })
+    console.log(data)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Title color='red'>Test</Title>
+      <SearchBar updateSearchParams={updateFilters} />
+      <ItemsDisplay items={data['items']} />
+      <AddItem addItem={addItemToData} />
     </div>
-  );
+  )
 }
-
-export default App;
